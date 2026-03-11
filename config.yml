@@ -1,0 +1,32 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+
+  - name: "settings"
+    label: "Website Settings"
+    files:
+      - file: "data/contact.json"
+        label: "Contact Info"
+        name: "contact"
+        fields:
+          - {label: "Email", name: "email", widget: "string"}
+          - {label: "Phone 1", name: "phone1", widget: "string"}
+          - {label: "Phone 2", name: "phone2", widget: "string"}
+          - {label: "Address", name: "address", widget: "text"}
+
+  - name: "products"
+    label: "Products"
+    folder: "products"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Product Name", name: "name", widget: "string"}
+      - {label: "Price", name: "price", widget: "string"}
+      - {label: "Image", name: "image", widget: "image"}
+      - {label: "Video", name: "video", widget: "file"}
+      - {label: "Description", name: "description", widget: "text"}
