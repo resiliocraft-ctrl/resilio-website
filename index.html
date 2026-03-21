@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resilio Artistry | Stylish & Functional Bags</title>
-    <script src="bag2-front"></script>
+    <title>Resilio Artistry | Stylish & Functional Bags</title> 
+     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="bag2-front.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -838,7 +839,21 @@ tag:"Limited"
         
         // Re-initialize icons for dynamically added content
         lucide.createIcons();
-
+    </script> 
+    
+    <!-- NETLIFY IDENTITY REDIRECT SCRIPT - ADDED HERE -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/admin/";
+                    });
+                }
+            });
+        }
     </script>
+       
 </body>
 </html>
