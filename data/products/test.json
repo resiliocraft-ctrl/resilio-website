@@ -1,1 +1,16 @@
-{}
+{
+  "products": [
+    {
+      "id": "product-1",
+      "name": "Premium Wireless Headphones",
+      "price": 299.99,
+      "description": "Noise-cancelling, 30hr battery",
+      "category": "electronics",
+      "image": "https://your-cdn.com/headphones.jpg",
+      "video": "https://youtube.com/embed/xyz",
+      "inStock": true,
+      "featured": false
+    }
+  ]
+}
+
