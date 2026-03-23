@@ -69,6 +69,7 @@
                     <button class="text-xs tracking-[0.2em] uppercase flex items-center gap-1 hover:text-stone-500">NGN (₦) <i data-lucide="chevron-down" class="w-3 h-3"></i></button>
                     <button class="hover:text-stone-500"><i data-lucide="search" class="w-4 h-4"></i></button>
                     <button class="hover:text-stone-500 relative"><i data-lucide="shopping-bag" class="w-4 h-4"></i><span class="absolute -top-1 -right-1 bg-black text-white text-[8px] w-3 h-3 flex items-center justify-center rounded-full">0</span></button>
+                    <a href="/admin/" class="text-xs tracking-[0.2em] uppercase text-stone-500 hover:text-black">CMS</a>
                 </div>
                 <div class="md:hidden flex items-center">
                     <button id="mobile-menu-btn" class="text-black focus:outline-none"><i data-lucide="menu" class="w-6 h-6"></i></button>
@@ -89,6 +90,7 @@
             <a href="#leather" class="text-2xl serif border-b border-stone-200 pb-4">Leather Care</a>
             <a href="#story" class="text-2xl serif border-b border-stone-200 pb-4">Our Story</a>
             <a href="#lookbooks" class="text-2xl serif border-b border-stone-200 pb-4">Lookbooks</a>
+            <a href="/admin/" class="text-2xl serif border-b border-stone-200 pb-4 text-stone-500">Admin CMS</a>
         </div>
         <div class="mt-auto p-8 bg-stone-100">
             <p class="text-xs uppercase tracking-widest mb-2">Contact</p>
@@ -162,16 +164,19 @@
         </div>
     </section>
 
-    <!-- Products Section - DYNAMICALLY LOADED FROM JSON -->
+    <!-- Products Section -->
     <section id="shop" class="py-20 px-4 max-w-7xl mx-auto">
         <div class="text-center mb-16">
             <h2 class="text-3xl md:text-4xl mb-4">New Arrivals</h2>
             <div class="w-16 h-[1px] bg-black mx-auto"></div>
         </div>
         
-        <!-- Product Grid - Populated via JavaScript -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12" id="product-grid">
-            <!-- Products loaded from products.json -->
+        <!-- Loading State -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+            <div class="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-20">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-black mb-4"></div>
+                <p class="text-stone-500 text-sm tracking-widest uppercase">Loading Products...</p>
+            </div>
         </div>
         
         <div class="text-center mt-16">
@@ -267,10 +272,8 @@
                     <button class="w-full bg-black text-white py-4 uppercase tracking-[0.2em] text-xs hover:bg-stone-800 transition-colors">Pre-Order</button>
                     <div class="pt-8">
                         <h4 class="serif text-xl mb-4">We think you may also like...</h4>
-                        <div class="flex gap-4 overflow-x-auto pb-4">
-                            <img src="images/bag2-front.jpg" class="w-24 h-24 object-cover cursor-pointer hover:opacity-80" alt="Resilio Pearl">
-                            <img src="images/bag5-front.jpg" class="w-24 h-24 object-cover cursor-pointer hover:opacity-80" alt="Resilio Belle">
-                            <img src="images/bag6-front.jpg" class="w-24 h-24 object-cover cursor-pointer hover:opacity-80" alt="Resilio Vogue">
+                        <div class="flex gap-4 overflow-x-auto pb-4" id="modal-recommendations">
+                            <!-- Recommendations injected via JS -->
                         </div>
                     </div>
                 </div>
@@ -278,15 +281,20 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT - FETCHES FROM JSON -->
+    <!-- JAVASCRIPT - LOADS FROM JSON (Single File or Folder) -->
     <script>
         // Initialize Icons
         lucide.createIcons();
 
-        // Global products array - populated from JSON
+        // Global products array
         let products = [];
 
-        // Load products from products.json
+        // Configuration - Set this based on your setup
+        const USE_FOLDER_COLLECTION = false; // Set to true if using folder collection
+        const PRODUCTS_FILE = 'products.json';
+        const PRODUCTS_FOLDER = 'content/products';
+
+        // Main load function - tries multiple methods
         async function loadProducts() {
             const productGrid = document.getElementById('product-grid');
             
@@ -297,24 +305,23 @@
                     <p class="text-stone-500 text-sm tracking-widest uppercase">Loading Products...</p>
                 </div>
             `;
-            
+
             try {
-                const response = await fetch('products.json');
+                let loadedProducts = [];
                 
-                if (!response.ok) {
-                    throw new Error(`Failed to load: ${response.status} ${response.statusText}`);
+                if (USE_FOLDER_COLLECTION) {
+                    // Try loading from folder collection
+                    loadedProducts = await loadFromFolder();
+                } else {
+                    // Try loading from single JSON file
+                    loadedProducts = await loadFromFile();
                 }
                 
-                const data = await response.json();
-                products = data.products || [];
+                // Sort by ID to maintain order
+                products = loadedProducts.sort((a, b) => (a.id || 0) - (b.id || 0));
                 
                 if (products.length === 0) {
-                    productGrid.innerHTML = `
-                        <div class="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-20">
-                            <p class="text-stone-500 mb-2">No products available</p>
-                            <p class="text-xs text-stone-400">Check your products.json file</p>
-                        </div>
-                    `;
+                    showError('No products found. Add products via the CMS.', 'Add Products');
                     return;
                 }
                 
@@ -322,16 +329,71 @@
                 
             } catch (error) {
                 console.error('Error loading products:', error);
-                productGrid.innerHTML = `
-                    <div class="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-20">
-                        <p class="text-red-600 mb-2 font-medium">Failed to load products</p>
-                        <p class="text-sm text-stone-500 mb-6">${error.message}</p>
-                        <button onclick="loadProducts()" class="px-6 py-3 bg-black text-white text-xs uppercase tracking-widest hover:bg-stone-800 transition-colors">
-                            Try Again
-                        </button>
-                    </div>
-                `;
+                showError(`Failed to load products: ${error.message}`, 'Retry');
             }
+        }
+
+        // Load from single JSON file
+        async function loadFromFile() {
+            const response = await fetch(PRODUCTS_FILE);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            return data.products || [];
+        }
+
+        // Load from folder collection (multiple JSON files)
+        async function loadFromFolder() {
+            // Try to load a manifest or index file first
+            try {
+                const indexResponse = await fetch(`${PRODUCTS_FOLDER}/index.json`);
+                if (indexResponse.ok) {
+                    const index = await indexResponse.json();
+                    const productFiles = index.files || [];
+                    
+                    const products = await Promise.all(
+                        productFiles.map(async (file) => {
+                            const res = await fetch(`${PRODUCTS_FOLDER}/${file}`);
+                            return res.ok ? await res.json() : null;
+                        })
+                    );
+                    return products.filter(p => p !== null);
+                }
+            } catch (e) {
+                console.log('No index found, trying individual files...');
+            }
+            
+            // Fallback: try to load common product IDs
+            const testIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
+            const products = [];
+            
+            for (const id of testIds) {
+                try {
+                    const res = await fetch(`${PRODUCTS_FOLDER}/${id}-.json`);
+                    if (res.ok) {
+                        products.push(await res.json());
+                    }
+                } catch (e) {
+                    // File doesn't exist, skip
+                }
+            }
+            
+            return products;
+        }
+
+        // Show error with retry button
+        function showError(message, buttonText) {
+            const productGrid = document.getElementById('product-grid');
+            productGrid.innerHTML = `
+                <div class="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-20">
+                    <p class="text-red-600 mb-2 font-medium">${message}</p>
+                    <button onclick="loadProducts()" class="px-6 py-3 bg-black text-white text-xs uppercase tracking-widest hover:bg-stone-800 transition-colors">
+                        ${buttonText}
+                    </button>
+                    <p class="mt-4 text-xs text-stone-400">
+                        <a href="/admin/" class="underline">Go to CMS Admin</a> to add products
+                    </p>
+                </div>
+            `;
         }
 
         // Render products to grid
@@ -343,7 +405,7 @@
                 const card = document.createElement('div');
                 card.className = 'group cursor-pointer';
                 
-                // Build badges HTML
+                // Build badges
                 let badgesHtml = '';
                 if (product.tag) {
                     badgesHtml += `<span class="absolute top-2 left-2 bg-white/90 text-[10px] uppercase tracking-widest px-2 py-1">${product.tag}</span>`;
@@ -351,11 +413,16 @@
                 if (product.inStock === false) {
                     badgesHtml += `<span class="absolute top-2 right-2 bg-stone-800 text-white text-[10px] uppercase tracking-widest px-2 py-1">Out of Stock</span>`;
                 }
+                if (product.featured) {
+                    badgesHtml += `<span class="absolute bottom-2 left-2 bg-yellow-600 text-white text-[10px] uppercase tracking-widest px-2 py-1">★ Featured</span>`;
+                }
+                
+                const firstImage = product.images && product.images[0] ? product.images[0] : 'https://via.placeholder.com/400x500?text=No+Image';
                 
                 card.innerHTML = `
                     <div class="relative overflow-hidden bg-stone-100 aspect-[3/4] mb-4">
-                        <img src="${product.images[0]}" 
-                             alt="${product.name}" 
+                        <img src="${firstImage}" 
+                             alt="${product.name || 'Product'}" 
                              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                              onerror="this.src='https://via.placeholder.com/400x500?text=Image+Not+Found'">
                         ${badgesHtml}
@@ -366,14 +433,13 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <h3 class="serif text-lg mb-1 group-hover:text-stone-600 transition-colors" onclick="openModal(${product.id})">${product.name}</h3>
-                        <p class="text-sm text-stone-500">${product.price}</p>
+                        <h3 class="serif text-lg mb-1 group-hover:text-stone-600 transition-colors" onclick="openModal(${product.id})">${product.name || 'Unnamed Product'}</h3>
+                        <p class="text-sm text-stone-500">${product.price || 'Price TBA'}</p>
                     </div>
                 `;
                 productGrid.appendChild(card);
             });
             
-            // Re-initialize icons for new content
             lucide.createIcons();
         }
 
@@ -406,21 +472,38 @@
         const modalTitle = document.getElementById('modal-title');
         const modalPrice = document.getElementById('modal-price');
         const modalDesc = document.getElementById('modal-description');
+        const modalRecs = document.getElementById('modal-recommendations');
 
         window.openModal = function(id) {
             const product = products.find(p => p.id === id);
-            if (product) {
-                modalImg.src = product.images[0];
-                modalTitle.textContent = product.name;
-                modalPrice.textContent = product.price;
-                
-                // Use product description from JSON or fallback
-                modalDesc.textContent = product.description || 
-                    `Meet the ${product.name}. Crafted with premium materials and designed for the modern lifestyle. This exquisite piece combines functionality with timeless elegance.`;
-                
-                modal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
+            if (!product) return;
+            
+            const firstImage = product.images && product.images[0] ? product.images[0] : '';
+            
+            modalImg.src = firstImage;
+            modalTitle.textContent = product.name || 'Product';
+            modalPrice.textContent = product.price || '';
+            modalDesc.textContent = product.description || `Meet the ${product.name}. Crafted with premium materials for the modern lifestyle.`;
+            
+            // Add image gallery if multiple images
+            if (product.images && product.images.length > 1) {
+                // Could add thumbnail gallery here
             }
+            
+            // Load recommendations (random 3 other products)
+            const recs = products
+                .filter(p => p.id !== id)
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 3);
+            
+            modalRecs.innerHTML = recs.map(p => {
+                const img = p.images && p.images[0] ? p.images[0] : '';
+                return `<img src="${img}" class="w-24 h-24 object-cover cursor-pointer hover:opacity-80" alt="${p.name}" onclick="closeModal(); setTimeout(() => openModal(${p.id}), 100);">`;
+            }).join('');
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
         };
 
         function closeModal() {
@@ -430,12 +513,8 @@
 
         closeModalBtn.addEventListener('click', closeModal);
         modalBackdrop.addEventListener('click', closeModal);
-
-        // Close modal on Escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                closeModal();
-            }
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
         });
 
         // Navbar Scroll Effect
@@ -450,10 +529,9 @@
             }
         });
 
-        // Custom Cursor (Desktop)
+        // Custom Cursor
         const cursorDot = document.querySelector('.cursor-dot');
         const cursorOutline = document.querySelector('.cursor-outline');
-
         if (cursorDot && cursorOutline) {
             window.addEventListener('mousemove', (e) => {
                 const posX = e.clientX;
@@ -467,11 +545,11 @@
             });
         }
 
-        // Initialize - Load products from JSON
+        // Initialize
         document.addEventListener('DOMContentLoaded', loadProducts);
     </script>
     
-    <!-- Netlify Identity (for CMS) -->
+    <!-- Netlify Identity -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script>
         if (window.netlifyIdentity) {
