@@ -49,9 +49,11 @@
     </div>
 
     <script>
-        // REPLACE THESE WITH YOUR ACTUAL VALUES
-        const REPO_OWNER = 'YOUR_johndoe';  // ← CHANGE THIS
-        const REPO_NAME = 'YOUR_'resilio-artistry;         // ← CHANGE THIS
+        // ============================================
+        // YOUR GITHUB DETAILS - ALREADY FILLED IN
+        // ============================================
+        const REPO_OWNER = 'resiliocraft-ctrl';  // ← Your GitHub username
+        const REPO_NAME = 'resilio-website';      // ← Change this if your repo has a different name
         const FILE_PATH = 'products.json';
         
         let products = [];
@@ -143,11 +145,11 @@
                     
                     <div class="flex gap-4 mt-3">
                         <label class="flex items-center gap-2 text-sm">
-                            <input type="checkbox" ${p.inStock !== false ? 'checked' : ''} onchange="updateProduct(${index}, 'inStock', this.checked)">
+                            <input type="checkbox" ${p.inStock !== false ? 'checked' : ''} onchange="updateProduct(${index}, 'inStock', this.checked)}>
                             In Stock
                         </label>
                         <label class="flex items-center gap-2 text-sm">
-                            <input type="checkbox" ${p.featured ? 'checked' : ''} onchange="updateProduct(${index}, 'featured', this.checked)">
+                            <input type="checkbox" ${p.featured ? 'checked' : ''} onchange="updateProduct(${index}, 'featured', this.checked)}>
                             Featured
                         </label>
                     </div>
