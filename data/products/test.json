@@ -7,6 +7,9 @@
       "category": "handbags",
       "description": "Elegant pearl-finish handbag perfect for formal occasions",
       "images": ["images/bag2-front.jpg", "images/bag2-carry.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "New",
       "inStock": true,
       "featured": false
@@ -18,6 +21,9 @@
       "category": "handbags",
       "description": "A radiant addition to your collection",
       "images": ["images/bag1-front.jpg", "images/bag1-back.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "",
       "inStock": true,
       "featured": false
@@ -29,6 +35,9 @@
       "category": "tote",
       "description": "Spacious tote with floral accents",
       "images": ["images/bag3.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "",
       "inStock": true,
       "featured": false
@@ -40,6 +49,9 @@
       "category": "handbags",
       "description": "Classic design for everyday use",
       "images": ["images/bag4.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "",
       "inStock": true,
       "featured": false
@@ -51,6 +63,9 @@
       "category": "mini",
       "description": "Compact and stylish mini bag",
       "images": ["images/bag5-front.jpg", "images/bag5-back.jpg", "images/bag5-side.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "New",
       "inStock": true,
       "featured": false
@@ -62,6 +77,9 @@
       "category": "handbags",
       "description": "Medium-sized vogue handbag with multiple compartments",
       "images": ["images/bag6-front.jpg", "images/bag6-back.jpg", "images/bag6-side.jpg", "images/bag6-inside.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "",
       "inStock": true,
       "featured": false
@@ -73,6 +91,9 @@
       "category": "tote",
       "description": "Premium diva tote for the modern woman",
       "images": ["images/bag7-front.jpg", "images/bag7-back.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "",
       "inStock": true,
       "featured": false
@@ -84,6 +105,9 @@
       "category": "tote",
       "description": "Minimalist design, maximum functionality",
       "images": ["images/bag8-front.jpg", "images/bag8-back.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "",
       "inStock": true,
       "featured": false
@@ -95,6 +119,9 @@
       "category": "unisex",
       "description": "Trendy waist bag for hands-free convenience",
       "images": ["images/bag9-front.jpg", "images/bag9-side.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "Unisex",
       "inStock": true,
       "featured": false
@@ -106,6 +133,9 @@
       "category": "backpack",
       "description": "Perfect for work and travel",
       "images": ["images/bag10-front.jpg", "images/bag10-back.jpg", "images/bag10-base.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "Backpack",
       "inStock": true,
       "featured": false
@@ -117,6 +147,9 @@
       "category": "tote",
       "description": "Timeless classic tote design",
       "images": ["images/bag11.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "Best Seller",
       "inStock": true,
       "featured": true
@@ -128,6 +161,9 @@
       "category": "backpack",
       "description": "Versatile backpack with insulated compartment",
       "images": ["images/bag12.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "Back to School",
       "inStock": true,
       "featured": false
@@ -139,6 +175,9 @@
       "category": "accessories",
       "description": "Insulated lunch bag for daily commutes",
       "images": ["images/bag13.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "Back to School",
       "inStock": true,
       "featured": false
@@ -150,6 +189,9 @@
       "category": "handbags",
       "description": "Royale collection medium handbag",
       "images": ["images/bag14-front.jpg", "images/bag14-back.jpg", "images/bag14-side.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "New",
       "inStock": true,
       "featured": true
@@ -161,6 +203,9 @@
       "category": "mini",
       "description": "Luxurious mini bag for evening events",
       "images": ["images/bag15-front.jpg", "images/bag15-inside.jpg", "images/bag15-back.jpg", "images/bag15-side.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "Mini Bag",
       "inStock": true,
       "featured": false
@@ -172,6 +217,9 @@
       "category": "travel",
       "description": "Spacious duffel for weekend getaways",
       "images": ["images/bag16.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "",
       "inStock": true,
       "featured": false
@@ -183,6 +231,9 @@
       "category": "backpack",
       "description": "Stylish backpack with laptop compartment",
       "images": ["images/bag17-front.jpg", "images/bag17-back.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "Backpack",
       "inStock": true,
       "featured": false
@@ -194,6 +245,9 @@
       "category": "mini",
       "description": "Charming mini bag with unique pocket design",
       "images": ["images/bag18-front.jpg", "images/bag18-back.jpg", "images/bag18-inside.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "Hot Selling",
       "inStock": true,
       "featured": true
@@ -205,6 +259,9 @@
       "category": "mini",
       "description": "Petite and elegant mini bag",
       "images": ["images/bag19.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "",
       "inStock": true,
       "featured": false
@@ -216,6 +273,9 @@
       "category": "handbags",
       "description": "Prestige collection for special occasions",
       "images": ["images/bag20-front.jpg", "images/bag20-side.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "",
       "inStock": true,
       "featured": false
@@ -227,6 +287,9 @@
       "category": "mini",
       "description": "Majestic mini bag with gold accents",
       "images": ["images/bag21-front.jpg", "images/bag21-back.jpg", "images/bag21-side.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "",
       "inStock": true,
       "featured": false
@@ -238,6 +301,9 @@
       "category": "travel",
       "description": "Compact travel bag for essentials",
       "images": ["images/bag22-front.jpg", "images/bag22-top.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "",
       "inStock": true,
       "featured": false
@@ -249,6 +315,9 @@
       "category": "tote",
       "description": "Radiant tote that stands out",
       "images": ["images/bag23-front1.jpg", "images/bag23-front.jpg", "images/bag23-inside.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "Hot Selling",
       "inStock": true,
       "featured": true
@@ -260,6 +329,9 @@
       "category": "backpack",
       "description": "Unique tortoise shell pattern backpack",
       "images": ["images/bag24.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "Backpack",
       "inStock": true,
       "featured": false
@@ -271,6 +343,9 @@
       "category": "travel",
       "description": "Folds away when not in use",
       "images": ["images/bag25-front.jpg", "images/bag25-side.jpg", "images/bag25-foldable.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "",
       "inStock": true,
       "featured": false
@@ -282,6 +357,9 @@
       "category": "handbags",
       "description": "Edgy design for the modern trendsetter",
       "images": ["images/bag26-1.jpg", "images/bag26-2.jpg", "images/bag26-3.jpg", "images/bag26-4.jpg", "images/bag26-5.jpg", "images/bag26-6.jpg", "images/bag26-7.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "Hot Selling",
       "inStock": true,
       "featured": true
@@ -293,6 +371,9 @@
       "category": "mini",
       "description": "Gem-shaped crossbody mini bag",
       "images": ["images/bag27.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "Limited",
       "inStock": true,
       "featured": false
@@ -304,6 +385,9 @@
       "category": "mini",
       "description": "Swift and stylish mini handbag",
       "images": ["images/bag28.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "New",
       "inStock": true,
       "featured": false
@@ -315,6 +399,9 @@
       "category": "accessories",
       "description": "Premium leather wallet with card slots",
       "images": ["images/wallet1-front.jpg", "images/wallet1-back.jpg", "images/wallet1-inside.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "Limited",
       "inStock": true,
       "featured": false
@@ -326,6 +413,9 @@
       "category": "accessories",
       "description": "Elegant gem-shaped keychain accessory",
       "images": ["images/keychain1-white.jpg", "images/keychain1-tan.jpg"],
+      "video": "",
+      "videoPoster": "",
+      "autoplay": false,
       "tag": "Limited",
       "inStock": true,
       "featured": false
