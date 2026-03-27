@@ -1,15 +1,1471 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Resilio Artistry - Content Manager</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resilio Artistry CMS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .cms-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: #111;
+            border-right: 1px solid #222;
+            padding: 20px 0;
+        }
+
+        .logo {
+            padding: 0 20px 30px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #d4af37;
+            border-bottom: 1px solid #222;
+            margin-bottom: 20px;
+        }
+
+        .nav-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #888;
+        }
+
+        .nav-item:hover {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .nav-item.active {
+            background: #1a1a1a;
+            color: #d4af37;
+            border-right: 3px solid #d4af37;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #222;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #d4af37;
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            background: #c4a030;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #222;
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background: #333;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: #fff;
+        }
+
+        /* Upload Zone */
+        .upload-zone {
+            border: 2px dashed #333;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            background: #111;
+            margin-bottom: 20px;
+        }
+
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: #d4af37;
+            background: #1a1a1a;
+        }
+
+        .upload-zone input {
+            display: none;
+        }
+
+        .upload-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 16px;
+            color: #666;
+        }
+
+        .upload-text {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .upload-text span {
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .image-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #1a1a1a;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .image-item:hover {
+            border-color: #d4af37;
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-actions {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .image-item:hover .image-actions {
+            opacity: 1;
+        }
+
+        .image-action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-action-btn:hover {
+            background: #dc2626;
+        }
+
+        .image-order {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(0,0,0,0.8);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 14px 16px;
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: #d4af37;
+            background: #1a1a1a;
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        /* Page Editor */
+        .page-editor {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        .page-list {
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .page-list-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid #222;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .page-list-item:hover {
+            background: #1a1a1a;
+        }
+
+        .page-list-item.active {
+            background: #1a1a1a;
+            border-left: 3px solid #d4af37;
+        }
+
+        .page-list-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .page-list-slug {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .page-content {
+            background: #111;
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .section-block {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #888;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #222;
+            color: #888;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn:hover {
+            background: #333;
+            color: #fff;
+        }
+
+        /* Rich Text Toolbar */
+        .rich-text-toolbar {
+            display: flex;
+            gap: 8px;
+            padding: 8px;
+            background: #1a1a1a;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .toolbar-btn {
+            padding: 6px 12px;
+            border: none;
+            background: transparent;
+            color: #888;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .toolbar-btn:hover, .toolbar-btn.active {
+            background: #333;
+            color: #fff;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #222;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            color: #888;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+
+        .tab:hover {
+            color: #fff;
+        }
+
+        .tab.active {
+            color: #d4af37;
+            border-bottom-color: #d4af37;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #222;
+            transition: all 0.2s;
+        }
+
+        .product-card:hover {
+            border-color: #333;
+            transform: translateY(-2px);
+        }
+
+        .product-image {
+            aspect-ratio: 1;
+            background: #1a1a1a;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #d4af37;
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .product-price {
+            color: #d4af37;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #111;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 24px 30px;
+            border-bottom: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: #222;
+            color: #888;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .modal-body {
+            padding: 30px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: 20px 30px;
+            border-top: 1px solid #222;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 16px 24px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 2000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-color: #22c55e;
+        }
+
+        .toast.error {
+            border-color: #dc2626;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        /* Loading */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #333;
+            border-top-color: #d4af37;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Hidden */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Preview Panel */
+        .preview-panel {
+            position: fixed;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 400px;
+            background: #111;
+            border-left: 1px solid #222;
+            transform: translateX(100%);
+            transition: transform 0.3s;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-panel.open {
+            transform: translateX(0);
+        }
+
+        .preview-header {
+            padding: 20px;
+            border-bottom: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .preview-toggle {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #d4af37;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+            z-index: 99;
+        }
+    </style>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  <script>
-    CMS.registerPreviewStyle("/admin/preview.css");
-  </script>
+    <div class="cms-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">⚡ Resilio CMS</div>
+            <nav>
+                <div class="nav-item active" onclick="showSection('products')">
+                    <span>🛍️</span> Products
+                </div>
+                <div class="nav-item" onclick="showSection('pages')">
+                    <span>📄</span> Pages
+                </div>
+                <div class="nav-item" onclick="showSection('media')">
+                    <span>🖼️</span> Media Library
+                </div>
+                <div class="nav-item" onclick="showSection('settings')">
+                    <span>⚙️</span> Settings
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Products Section -->
+            <div id="products-section" class="section-content">
+                <div class="header">
+                    <h1>Products</h1>
+                    <button class="btn btn-primary" onclick="openProductModal()">
+                        <span>+</span> Add Product
+                    </button>
+                </div>
+
+                <div class="tabs">
+                    <button class="tab active" onclick="filterProducts('all')">All Products</button>
+                    <button class="tab" onclick="filterProducts('handbags')">Handbags</button>
+                    <button class="tab" onclick="filterProducts('tote')">Totes</button>
+                    <button class="tab" onclick="filterProducts('mini')">Mini Bags</button>
+                    <button class="tab" onclick="filterProducts('backpack')">Backpacks</button>
+                </div>
+
+                <div id="product-grid" class="product-grid">
+                    <!-- Products loaded here -->
+                </div>
+            </div>
+
+            <!-- Pages Section -->
+            <div id="pages-section" class="section-content hidden">
+                <div class="header">
+                    <h1>Pages</h1>
+                    <button class="btn btn-secondary" onclick="previewSite()">
+                        <span>👁️</span> Preview Site
+                    </button>
+                </div>
+
+                <div class="page-editor">
+                    <div class="page-list">
+                        <div class="page-list-item active" onclick="loadPage('story')">
+                            <div class="page-list-title">Our Story</div>
+                            <div class="page-list-slug">/our-story</div>
+                        </div>
+                        <div class="page-list-item" onclick="loadPage('shipping')">
+                            <div class="page-list-title">Shipping & Returns</div>
+                            <div class="page-list-slug">/shipping-returns</div>
+                        </div>
+                        <div class="page-list-item" onclick="loadPage('care')">
+                            <div class="page-list-title">Product Care</div>
+                            <div class="page-list-slug">/product-care</div>
+                        </div>
+                        <div class="page-list-item" onclick="loadPage('faq')">
+                            <div class="page-list-title">FAQ</div>
+                            <div class="page-list-slug">/faq</div>
+                        </div>
+                        <div class="page-list-item" onclick="loadPage('careers')">
+                            <div class="page-list-title">Careers</div>
+                            <div class="page-list-slug">/careers</div>
+                        </div>
+                    </div>
+
+                    <div class="page-content" id="page-editor-content">
+                        <!-- Page editor loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Media Section -->
+            <div id="media-section" class="section-content hidden">
+                <div class="header">
+                    <h1>Media Library</h1>
+                    <button class="btn btn-primary" onclick="document.getElementById('media-upload').click()">
+                        <span>📤</span> Upload Files
+                    </button>
+                    <input type="file" id="media-upload" multiple accept="image/*,video/*" onchange="handleMediaUpload(event)">
+                </div>
+
+                <div class="upload-zone" onclick="document.getElementById('media-upload').click()">
+                    <div class="upload-icon">🖼️</div>
+                    <div class="upload-text">
+                        Drop files here or <span>click to browse</span><br>
+                        <small style="color: #666;">Supports JPG, PNG, WebP, MP4</small>
+                    </div>
+                </div>
+
+                <div id="media-grid" class="image-gallery">
+                    <!-- Media files loaded here -->
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings-section" class="section-content hidden">
+                <div class="header">
+                    <h1>Settings</h1>
+                    <button class="btn btn-primary" onclick="saveSettings()">
+                        <span>💾</span> Save Changes
+                    </button>
+                </div>
+
+                <div style="max-width: 600px;">
+                    <div class="form-group">
+                        <label class="form-label">Site Name</label>
+                        <input type="text" class="form-input" id="site-name" value="Resilio Artistry">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tagline</label>
+                        <input type="text" class="form-input" id="site-tagline" value="Stylish & Functional Bags">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone</label>
+                        <input type="text" class="form-input" id="site-phone" value="+234 903 603 0157">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="site-email" value="hello@resilioartistry.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Address</label>
+                        <textarea class="form-textarea" id="site-address">No 2, Bokusoro Junction, Beside As-soffy Travel & Tour Office, Iwo, Osun State, Nigeria.</textarea>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Add New Product</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="product-form">
+                    <input type="hidden" id="product-id">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Product Images *</label>
+                        <div class="upload-zone" onclick="document.getElementById('product-images').click()">
+                            <div class="upload-icon">📸</div>
+                            <div class="upload-text">
+                                Click to upload images<br>
+                                <small style="color: #666;">First image will be the cover</small>
+                            </div>
+                        </div>
+                        <input type="file" id="product-images" multiple accept="image/*" onchange="handleProductImages(event)">
+                        <div id="product-image-preview" class="image-gallery"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Product Name *</label>
+                        <input type="text" class="form-input" id="product-name" placeholder="e.g., Resilio Pearl Handbag" required>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label">Price (₦) *</label>
+                            <input type="number" class="form-input" id="product-price" placeholder="20000" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Category *</label>
+                            <select class="form-select" id="product-category" required>
+                                <option value="">Select category</option>
+                                <option value="handbags">Handbags</option>
+                                <option value="tote">Tote Bags</option>
+                                <option value="mini">Mini Bags</option>
+                                <option value="backpack">Backpacks</option>
+                                <option value="travel">Travel</option>
+                                <option value="accessories">Accessories</option>
+                                <option value="unisex">Unisex</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" id="product-description" placeholder="Describe the product..."></textarea>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label">Tag</label>
+                            <select class="form-select" id="product-tag">
+                                <option value="">None</option>
+                                <option value="New">New</option>
+                                <option value="Best Seller">Best Seller</option>
+                                <option value="Hot Selling">Hot Selling</option>
+                                <option value="Limited">Limited</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="product-featured" style="width: auto;"> Featured Product
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Product Video (Optional)</label>
+                        <input type="file" class="form-input" id="product-video" accept="video/mp4">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveProduct()">
+                    <span id="save-btn-text">Save Product</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span id="toast-icon">✓</span>
+        <span id="toast-message">Saved successfully</span>
+    </div>
+
+    <script>
+        // Data Store
+        let products = [
+            {
+                id: 1,
+                name: "Resilio Pearl Handbag",
+                price: 20000,
+                category: "handbags",
+                description: "Elegant pearl-finish handbag perfect for formal occasions",
+                images: ["https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400"],
+                tag: "New",
+                inStock: true,
+                featured: false
+            },
+            {
+                id: 2,
+                name: "Resilio Aura Handbag",
+                price: 15000,
+                category: "handbags",
+                description: "A radiant addition to your collection",
+                images: ["https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400"],
+                tag: "",
+                inStock: true,
+                featured: false
+            }
+        ];
+
+        let mediaLibrary = [];
+        let currentPage = 'story';
+        let editingProductId = null;
+        let tempProductImages = [];
+
+        // Pages Content
+        const pagesContent = {
+            story: {
+                title: "Our Story",
+                sections: [
+                    {
+                        id: 'sec_1',
+                        type: 'hero',
+                        heading: "Crafted with Passion",
+                        body: "Resilio Artistry was founded in 2020 with a simple mission: to create bags that blend Nigerian craftsmanship with modern functionality. What started in a small workshop in Iwo, Osun State, has grown into a beloved brand trusted by thousands of customers nationwide.",
+                        image: null
+                    },
+                    {
+                        id: 'sec_2',
+                        type: 'text',
+                        heading: "Our Values",
+                        body: "Every bag tells a story. We believe in sustainable practices, fair wages for our artisans, and creating products that last a lifetime. Our materials are carefully sourced, and each stitch is placed with intention."
+                    }
+                ]
+            },
+            shipping: {
+                title: "Shipping & Returns",
+                sections: [
+                    {
+                        id: 'sec_1',
+                        type: 'policy',
+                        heading: "Delivery Information",
+                        body: "We offer nationwide delivery within 3-5 business days. Lagos orders arrive in 1-2 days. All orders are processed within 24 hours."
+                    },
+                    {
+                        id: 'sec_2',
+                        type: 'policy',
+                        heading: "Return Policy",
+                        body: "Not satisfied? Return within 14 days for a full refund. Items must be unused with original tags attached."
+                    }
+                ]
+            },
+            care: {
+                title: "Product Care",
+                sections: [
+                    {
+                        id: 'sec_1',
+                        type: 'tips',
+                        heading: "Leather Care Guide",
+                        body: "• Wipe with damp cloth\n• Avoid harsh chemicals\n• Store in dust bag\n• Keep away from direct sunlight"
+                    }
+                ]
+            },
+            faq: {
+                title: "FAQ",
+                sections: [
+                    {
+                        id: 'sec_1',
+                        type: 'qa',
+                        items: [
+                            { q: "How do I track my order?", a: "You'll receive an SMS with tracking number once shipped." },
+                            { q: "Do you offer wholesale?", a: "Yes! Contact wholesale@resilioartistry.com for bulk orders." }
+                        ]
+                    }
+                ]
+            },
+            careers: {
+                title: "Careers",
+                sections: [
+                    {
+                        id: 'sec_1',
+                        type: 'intro',
+                        heading: "Join Our Team",
+                        body: "We're always looking for passionate people who love craftsmanship."
+                    }
+                ]
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            loadPage('story');
+            setupDragAndDrop();
+        });
+
+        // Navigation
+        function showSection(section) {
+            document.querySelectorAll('.section-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(section + '-section').classList.remove('hidden');
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            event.target.closest('.nav-item').classList.add('active');
+        }
+
+        // Product Functions
+        function renderProducts(filter = 'all') {
+            const grid = document.getElementById('product-grid');
+            let filtered = products;
+            if (filter !== 'all') {
+                filtered = products.filter(p => p.category === filter);
+            }
+            
+            grid.innerHTML = filtered.map(product => `
+                <div class="product-card" onclick="editProduct(${product.id})">
+                    <div class="product-image">
+                        <img src="${product.images[0] || 'https://via.placeholder.com/400'}" alt="${product.name}">
+                        ${product.tag ? `<span class="product-badge">${product.tag}</span>` : ''}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-meta">
+                            <span>${product.category}</span>
+                            <span class="product-price">₦${product.price.toLocaleString()}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterProducts(category) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            renderProducts(category);
+        }
+
+        function openProductModal() {
+            editingProductId = null;
+            tempProductImages = [];
+            document.getElementById('product-form').reset();
+            document.getElementById('product-image-preview').innerHTML = '';
+            document.getElementById('modal-title').textContent = 'Add New Product';
+            document.getElementById('product-modal').classList.add('active');
+        }
+
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            editingProductId = id;
+            tempProductImages = [...product.images];
+            
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-price').value = product.price;
+            document.getElementById('product-category').value = product.category;
+            document.getElementById('product-description').value = product.description || '';
+            document.getElementById('product-tag').value = product.tag || '';
+            document.getElementById('product-featured').checked = product.featured;
+            
+            // Render existing images
+            document.getElementById('product-image-preview').innerHTML = tempProductImages.map((img, idx) => `
+                <div class="image-item">
+                    <img src="${img}" alt="">
+                    <div class="image-order">${idx + 1}</div>
+                    <div class="image-actions">
+                        <button type="button" class="image-action-btn" onclick="removeProductImage(${idx})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('modal-title').textContent = 'Edit Product';
+            document.getElementById('product-modal').classList.add('active');
+        }
+
+        function handleProductImages(event) {
+            const files = Array.from(event.target.files);
+            
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    tempProductImages.push(e.target.result);
+                    renderProductImagePreview();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function renderProductImagePreview() {
+            document.getElementById('product-image-preview').innerHTML = tempProductImages.map((img, idx) => `
+                <div class="image-item">
+                    <img src="${img}" alt="">
+                    <div class="image-order">${idx + 1}</div>
+                    <div class="image-actions">
+                        <button type="button" class="image-action-btn" onclick="removeProductImage(${idx})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function removeProductImage(index) {
+            tempProductImages.splice(index, 1);
+            renderProductImagePreview();
+        }
+
+        function saveProduct() {
+            const name = document.getElementById('product-name').value;
+            const price = parseInt(document.getElementById('product-price').value);
+            const category = document.getElementById('product-category').value;
+            
+            if (!name || !price || !category) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+
+            if (tempProductImages.length === 0) {
+                showToast('Please add at least one image', 'error');
+                return;
+            }
+
+            const productData = {
+                id: editingProductId || Date.now(),
+                name,
+                price,
+                category,
+                description: document.getElementById('product-description').value,
+                images: tempProductImages,
+                tag: document.getElementById('product-tag').value,
+                featured: document.getElementById('product-featured').checked,
+                inStock: true
+            };
+
+            if (editingProductId) {
+                const idx = products.findIndex(p => p.id === editingProductId);
+                products[idx] = productData;
+                showToast('Product updated successfully');
+            } else {
+                products.push(productData);
+                showToast('Product added successfully');
+            }
+
+            closeModal();
+            renderProducts();
+        }
+
+        function closeModal() {
+            document.getElementById('product-modal').classList.remove('active');
+        }
+
+        // Page Editor Functions
+        function loadPage(page) {
+            currentPage = page;
+            const content = pagesContent[page];
+            const container = document.getElementById('page-editor-content');
+            
+            // Update active state in sidebar
+            document.querySelectorAll('.page-list-item').forEach((el, idx) => {
+                el.classList.remove('active');
+                if (['story', 'shipping', 'care', 'faq', 'careers'][idx] === page) {
+                    el.classList.add('active');
+                }
+            });
+
+            // Render editor
+            container.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <input type="text" class="form-input" value="${content.title}" 
+                           onchange="updatePageTitle('${page}', this.value)"
+                           style="font-size: 24px; font-weight: 600;">
+                </div>
+                
+                ${content.sections.map((section, idx) => `
+                    <div class="section-block" data-section-id="${section.id}">
+                        <div class="section-header">
+                            <span class="section-title">${section.type.toUpperCase()} SECTION</span>
+                            <div class="section-actions">
+                                <button class="icon-btn" onclick="moveSection('${page}', ${idx}, -1)" ${idx === 0 ? 'disabled' : ''}>↑</button>
+                                <button class="icon-btn" onclick="moveSection('${page}', ${idx}, 1)" ${idx === content.sections.length - 1 ? 'disabled' : ''}>↓</button>
+                                <button class="icon-btn" onclick="deleteSection('${page}', ${idx})" style="color: #dc2626;">🗑️</button>
+                            </div>
+                        </div>
+                        
+                        ${section.heading !== undefined ? `
+                            <div class="form-group">
+                                <label class="form-label">Heading</label>
+                                <input type="text" class="form-input" value="${section.heading || ''}"
+                                       onchange="updateSection('${page}', '${section.id}', 'heading', this.value)">
+                            </div>
+                        ` : ''}
+                        
+                        ${section.body !== undefined ? `
+                            <div class="form-group">
+                                <label class="form-label">Content</label>
+                                <div class="rich-text-toolbar">
+                                    <button class="toolbar-btn" onclick="formatText('bold')"><b>B</b></button>
+                                    <button class="toolbar-btn" onclick="formatText('italic')"><i>I</i></button>
+                                    <button class="toolbar-btn" onclick="formatText('h2')">H2</button>
+                                    <button class="toolbar-btn" onclick="formatText('ul')">• List</button>
+                                </div>
+                                <textarea class="form-textarea" rows="6"
+                                          onchange="updateSection('${page}', '${section.id}', 'body', this.value)"
+                                          id="editor-${section.id}">${section.body || ''}</textarea>
+                            </div>
+                        ` : ''}
+                        
+                        ${section.items ? `
+                            <div class="form-group">
+                                <label class="form-label">Questions & Answers</label>
+                                ${section.items.map((item, i) => `
+                                    <div style="background: #111; padding: 16px; border-radius: 8px; margin-bottom: 12px;">
+                                        <input type="text" class="form-input" value="${item.q}" 
+                                               onchange="updateQA('${page}', '${section.id}', ${i}, 'q', this.value)"
+                                               style="margin-bottom: 8px; font-weight: 600;">
+                                        <textarea class="form-textarea" rows="2"
+                                                  onchange="updateQA('${page}', '${section.id}', ${i}, 'a', this.value)">${item.a}</textarea>
+                                    </div>
+                                `).join('')}
+                                <button class="btn btn-secondary" onclick="addQA('${page}', '${section.id}')" style="width: 100%;">
+                                    + Add Question
+                                </button>
+                            </div>
+                        ` : ''}
+                        
+                        ${section.image !== undefined ? `
+                            <div class="form-group">
+                                <label class="form-label">Section Image</label>
+                                ${section.image ? `
+                                    <div class="image-item" style="width: 200px; height: 150px;">
+                                        <img src="${section.image}" style="object-fit: cover;">
+                                        <div class="image-actions" style="opacity: 1;">
+                                            <button class="image-action-btn" onclick="removeSectionImage('${page}', '${section.id}')">🗑️</button>
+                                        </div>
+                                    </div>
+                                ` : `
+                                    <div class="upload-zone" onclick="uploadSectionImage('${page}', '${section.id}')" style="padding: 20px;">
+                                        <div class="upload-text">Click to add image</div>
+                                    </div>
+                                `}
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('')}
+                
+                <button class="btn btn-secondary" onclick="addSection('${page}')" style="width: 100%; margin-top: 20px;">
+                    + Add New Section
+                </button>
+                
+                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #222;">
+                    <button class="btn btn-primary" onclick="savePage('${page}')" style="width: 100%;">
+                        💾 Save Page Changes
+                    </button>
+                </div>
+            `;
+        }
+
+        function updatePageTitle(page, value) {
+            pagesContent[page].title = value;
+        }
+
+        function updateSection(page, sectionId, field, value) {
+            const section = pagesContent[page].sections.find(s => s.id === sectionId);
+            if (section) section[field] = value;
+        }
+
+        function updateQA(page, sectionId, index, field, value) {
+            const section = pagesContent[page].sections.find(s => s.id === sectionId);
+            if (section && section.items[index]) {
+                section.items[index][field] = value;
+            }
+        }
+
+        function addQA(page, sectionId) {
+            const section = pagesContent[page].sections.find(s => s.id === sectionId);
+            if (section) {
+                section.items.push({ q: "New Question", a: "Answer goes here..." });
+                loadPage(page);
+            }
+        }
+
+        function moveSection(page, index, direction) {
+            const sections = pagesContent[page].sections;
+            const newIndex = index + direction;
+            if (newIndex >= 0 && newIndex < sections.length) {
+                [sections[index], sections[newIndex]] = [sections[newIndex], sections[index]];
+                loadPage(page);
+            }
+        }
+
+        function deleteSection(page, index) {
+            if (confirm('Delete this section?')) {
+                pagesContent[page].sections.splice(index, 1);
+                loadPage(page);
+            }
+        }
+
+        function addSection(page) {
+            const types = ['text', 'hero', 'image', 'columns'];
+            const type = prompt('Section type? (text, hero, image, columns):', 'text');
+            if (types.includes(type)) {
+                pagesContent[page].sections.push({
+                    id: 'sec_' + Date.now(),
+                    type: type,
+                    heading: 'New Section',
+                    body: 'Enter content here...'
+                });
+                loadPage(page);
+            }
+        }
+
+        function savePage(page) {
+            // In real implementation, send to server
+            console.log('Saving page:', page, pagesContent[page]);
+            showToast('Page saved successfully');
+        }
+
+        function formatText(command) {
+            // Simple formatting helper
+            const activeElement = document.activeElement;
+            if (activeElement.tagName === 'TEXTAREA') {
+                const start = activeElement.selectionStart;
+                const end = activeElement.selectionEnd;
+                const text = activeElement.value;
+                const selected = text.substring(start, end);
+                
+                let formatted = selected;
+                if (command === 'bold') formatted = `**${selected}**`;
+                if (command === 'italic') formatted = `*${selected}*`;
+                if (command === 'h2') formatted = `## ${selected}`;
+                if (command === 'ul') formatted = `\n• ${selected}`;
+                
+                activeElement.value = text.substring(0, start) + formatted + text.substring(end);
+            }
+        }
+
+        // Media Library
+        function setupDragAndDrop() {
+            const zone = document.querySelector('.upload-zone');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                zone.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                zone.addEventListener(eventName, () => zone.classList.add('dragover'), false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                zone.addEventListener(eventName, () => zone.classList.remove('dragover'), false);
+            });
+            
+            zone.addEventListener('drop', handleDrop, false);
+        }
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        function handleMediaUpload(event) {
+            handleFiles(event.target.files);
+        }
+
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    mediaLibrary.push({
+                        id: Date.now() + Math.random(),
+                        name: file.name,
+                        url: e.target.result,
+                        type: file.type.startsWith('video') ? 'video' : 'image',
+                        size: file.size,
+                        uploadedAt: new Date().toISOString()
+                    });
+                    renderMediaLibrary();
+                };
+                reader.readAsDataURL(file);
+            });
+            showToast(`${files.length} file(s) uploaded`);
+        }
+
+        function renderMediaLibrary() {
+            const grid = document.getElementById('media-grid');
+            grid.innerHTML = mediaLibrary.map(media => `
+                <div class="image-item" onclick="selectMedia('${media.url}')">
+                    ${media.type === 'video' ? 
+                        `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #1a1a1a;">🎥</div>` :
+                        `<img src="${media.url}" alt="${media.name}">`
+                    }
+                    <div class="image-actions">
+                        <button class="image-action-btn" onclick="event.stopPropagation(); copyMediaUrl('${media.url}')">📋</button>
+                        <button class="image-action-btn" onclick="event.stopPropagation(); deleteMedia('${media.id}')">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function copyMediaUrl(url) {
+            navigator.clipboard.writeText(url);
+            showToast('URL copied to clipboard');
+        }
+
+        function deleteMedia(id) {
+            if (confirm('Delete this file?')) {
+                mediaLibrary = mediaLibrary.filter(m => m.id != id);
+                renderMediaLibrary();
+            }
+        }
+
+        function selectMedia(url) {
+            // Could be used to insert into editor
+            console.log('Selected:', url);
+        }
+
+        // Utilities
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            document.getElementById('toast-icon').textContent = type === 'success' ? '✓' : '✕';
+            toast.className = 'toast show ' + type;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function saveSettings() {
+            const settings = {
+                name: document.getElementById('site-name').value,
+                tagline: document.getElementById('site-tagline').value,
+                phone: document.getElementById('site-phone').value,
+                email: document.getElementById('site-email').value,
+                address: document.getElementById('site-address').value
+            };
+            console.log('Saving settings:', settings);
+            showToast('Settings saved');
+        }
+
+        function previewSite() {
+            window.open('https://resilioartistry.com', '_blank');
+        }
+
+        // Close modal on outside click
+        document.getElementById('product-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'product-modal') closeModal();
+        });
+    </script>
 </body>
 </html>
