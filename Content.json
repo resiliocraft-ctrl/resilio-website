@@ -421,4 +421,52 @@
       "featured": false
     }
   ]
+  "site": {
+    "name": "Resilio Artistry",
+    "tagline": "Stylish & Functional Bags",
+    "phone": "+234 903 603 0157",
+    "email": "hello@resilioartistry.com",
+    "address": "No 2, Bokusoro Junction, Beside As-soffy Travel & Tour Office, Iwo, Osun State, Nigeria."
+  },
+  "payment": {
+    "paystack_public_key": "pk_test_your_key_here",
+    "bank_transfer": {
+      "bank_name": "opay",
+      "account_number": "6403242905",
+      "account_name": "Resilio Artistry Ltd"
+    }
+  },
+  "pages": {
+    "story": {
+      "title": "Our Story",
+      "content": "Resilio Artistry was founded in 2020...",
+      "video": "",
+      "videoPoster": "",
+      "videoPosition": "top"
+    },
+    "shipping": {
+      "title": "Shipping & Returns",
+      "content": "We offer nationwide delivery within 3-5 business days..."
+    },
+    "care": {
+      "title": "Product Care",
+      "content": "To maintain your bag's quality..."
+    },
+    "faq": {
+      "title": "FAQ",
+      "content": "Q: How do I track my order?..."
+    },
+    "lookbooks": {
+      "title": "Lookbooks",
+      "content": "Explore our seasonal collections..."
+    },
+    "journal": {
+      "title": "Journal",
+      "content": "Latest news, styling tips..."
+    },
+    "careers": {
+      "title": "Careers",
+      "content": "Join our team!..."
+    }
+  }
 }
