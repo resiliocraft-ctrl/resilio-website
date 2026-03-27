@@ -3,422 +3,321 @@
     {
       "id": 1,
       "name": "Resilio Pearl Handbag",
-      "price": "₦20,000",
+      "price": 20000,
+      "currency": "₦",
       "category": "handbags",
       "description": "Elegant pearl-finish handbag perfect for formal occasions",
-      "images": ["images/bag2-front.jpg", "images/bag2-carry.jpg"],
-      "video": "",
-      "videoPoster": "",
+      "images": [],
+      "video": null,
+      "videoPoster": null,
       "autoplay": false,
       "tag": "New",
       "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 2,
-      "name": "Resilio Aura Handbag",
-      "price": "₦15,000",
-      "category": "handbags",
-      "description": "A radiant addition to your collection",
-      "images": ["images/bag1-front.jpg", "images/bag1-back.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 3,
-      "name": "Resilio Blossom Tote Bag",
-      "price": "₦18,000",
-      "category": "tote",
-      "description": "Spacious tote with floral accents",
-      "images": ["images/bag3.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 4,
-      "name": "Resilio Bag 4",
-      "price": "₦20,000",
-      "category": "handbags",
-      "description": "Classic design for everyday use",
-      "images": ["images/bag4.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 5,
-      "name": "Resilio Belle Mini Bag",
-      "price": "₦10,000",
-      "category": "mini",
-      "description": "Compact and stylish mini bag",
-      "images": ["images/bag5-front.jpg", "images/bag5-back.jpg", "images/bag5-side.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "New",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 6,
-      "name": "Resilio Vogue Medium Handbag",
-      "price": "₦18,000",
-      "category": "handbags",
-      "description": "Medium-sized vogue handbag with multiple compartments",
-      "images": ["images/bag6-front.jpg", "images/bag6-back.jpg", "images/bag6-side.jpg", "images/bag6-inside.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 7,
-      "name": "Resilio Diva Tote Bag",
-      "price": "₦28,000",
-      "category": "tote",
-      "description": "Premium diva tote for the modern woman",
-      "images": ["images/bag7-front.jpg", "images/bag7-back.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 8,
-      "name": "Resilio Simple Tote Bag",
-      "price": "₦19,000",
-      "category": "tote",
-      "description": "Minimalist design, maximum functionality",
-      "images": ["images/bag8-front.jpg", "images/bag8-back.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 9,
-      "name": "Resilio Waist Bag",
-      "price": "₦7,000",
-      "category": "unisex",
-      "description": "Trendy waist bag for hands-free convenience",
-      "images": ["images/bag9-front.jpg", "images/bag9-side.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "Unisex",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 10,
-      "name": "Resilio Nomad Backpack",
-      "price": "₦15,000",
-      "category": "backpack",
-      "description": "Perfect for work and travel",
-      "images": ["images/bag10-front.jpg", "images/bag10-back.jpg", "images/bag10-base.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "Backpack",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 11,
-      "name": "Resilio Classic Tote Bag",
-      "price": "₦11,000",
-      "category": "tote",
-      "description": "Timeless classic tote design",
-      "images": ["images/bag11.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "Best Seller",
-      "inStock": true,
-      "featured": true
-    },
-    {
-      "id": 12,
-      "name": "Resilio Explorer Backpack / Lunch Bag",
-      "price": "₦25,000",
-      "category": "backpack",
-      "description": "Versatile backpack with insulated compartment",
-      "images": ["images/bag12.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "Back to School",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 13,
-      "name": "Resilio Trek Lunch Bag",
-      "price": "₦15,000",
-      "category": "accessories",
-      "description": "Insulated lunch bag for daily commutes",
-      "images": ["images/bag13.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "Back to School",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 14,
-      "name": "Resilio Royale Medium Handbag",
-      "price": "₦20,000",
-      "category": "handbags",
-      "description": "Royale collection medium handbag",
-      "images": ["images/bag14-front.jpg", "images/bag14-back.jpg", "images/bag14-side.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "New",
-      "inStock": true,
-      "featured": true
-    },
-    {
-      "id": 15,
-      "name": "Resilio Mini Luxe Bag",
-      "price": "₦12,000",
-      "category": "mini",
-      "description": "Luxurious mini bag for evening events",
-      "images": ["images/bag15-front.jpg", "images/bag15-inside.jpg", "images/bag15-back.jpg", "images/bag15-side.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "Mini Bag",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 16,
-      "name": "Resilio Motion Duffel Bag",
-      "price": "₦20,000",
-      "category": "travel",
-      "description": "Spacious duffel for weekend getaways",
-      "images": ["images/bag16.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 17,
-      "name": "Resilio Backpack 17",
-      "price": "₦21,000",
-      "category": "backpack",
-      "description": "Stylish backpack with laptop compartment",
-      "images": ["images/bag17-front.jpg", "images/bag17-back.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "Backpack",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 18,
-      "name": "Resilio Pocket Charm Mini Bag",
-      "price": "₦18,000",
-      "category": "mini",
-      "description": "Charming mini bag with unique pocket design",
-      "images": ["images/bag18-front.jpg", "images/bag18-back.jpg", "images/bag18-inside.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "Hot Selling",
-      "inStock": true,
-      "featured": true
-    },
-    {
-      "id": 19,
-      "name": "Resilio Petite Mini Bag",
-      "price": "₦17,000",
-      "category": "mini",
-      "description": "Petite and elegant mini bag",
-      "images": ["images/bag19.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 20,
-      "name": "Resilio Prestige Handbag",
-      "price": "₦22,000",
-      "category": "handbags",
-      "description": "Prestige collection for special occasions",
-      "images": ["images/bag20-front.jpg", "images/bag20-side.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 21,
-      "name": "Resilio Majesty Mini Bag",
-      "price": "₦25,000",
-      "category": "mini",
-      "description": "Majestic mini bag with gold accents",
-      "images": ["images/bag21-front.jpg", "images/bag21-back.jpg", "images/bag21-side.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 22,
-      "name": "Resilio Imperial Mini Travel Bag",
-      "price": "₦10,000",
-      "category": "travel",
-      "description": "Compact travel bag for essentials",
-      "images": ["images/bag22-front.jpg", "images/bag22-top.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 23,
-      "name": "Resilio Radiant Tote Bag",
-      "price": "₦24,000",
-      "category": "tote",
-      "description": "Radiant tote that stands out",
-      "images": ["images/bag23-front1.jpg", "images/bag23-front.jpg", "images/bag23-inside.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "Hot Selling",
-      "inStock": true,
-      "featured": true
-    },
-    {
-      "id": 24,
-      "name": "Resilio Tortoise Backpack",
-      "price": "₦12,000",
-      "category": "backpack",
-      "description": "Unique tortoise shell pattern backpack",
-      "images": ["images/bag24.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "Backpack",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 25,
-      "name": "Resilio Foldable Travel Bag",
-      "price": "₦25,000",
-      "category": "travel",
-      "description": "Folds away when not in use",
-      "images": ["images/bag25-front.jpg", "images/bag25-side.jpg", "images/bag25-foldable.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 26,
-      "name": "Resilio Edge Medium Bag",
-      "price": "₦25,000",
-      "category": "handbags",
-      "description": "Edgy design for the modern trendsetter",
-      "images": ["images/bag26-1.jpg", "images/bag26-2.jpg", "images/bag26-3.jpg", "images/bag26-4.jpg", "images/bag26-5.jpg", "images/bag26-6.jpg", "images/bag26-7.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "Hot Selling",
-      "inStock": true,
-      "featured": true
-    },
-    {
-      "id": 27,
-      "name": "Resilio Gem Mini Cross Bag",
-      "price": "₦8,000",
-      "category": "mini",
-      "description": "Gem-shaped crossbody mini bag",
-      "images": ["images/bag27.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "Limited",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 28,
-      "name": "Resilio Swift Mini Handbag",
-      "price": "₦12,000",
-      "category": "mini",
-      "description": "Swift and stylish mini handbag",
-      "images": ["images/bag28.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "New",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 29,
-      "name": "Resilio Mini Luxe Wallet",
-      "price": "₦8,000",
-      "category": "accessories",
-      "description": "Premium leather wallet with card slots",
-      "images": ["images/wallet1-front.jpg", "images/wallet1-back.jpg", "images/wallet1-inside.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "Limited",
-      "inStock": true,
-      "featured": false
-    },
-    {
-      "id": 30,
-      "name": "Resilio Gem Keychain",
-      "price": "₦1,000",
-      "category": "accessories",
-      "description": "Elegant gem-shaped keychain accessory",
-      "images": ["images/keychain1-white.jpg", "images/keychain1-tan.jpg"],
-      "video": "",
-      "videoPoster": "",
-      "autoplay": false,
-      "tag": "Limited",
-      "inStock": true,
-      "featured": false
+      "featured": false,
+      "createdAt": "2026-03-27T16:16:00Z",
+      "updatedAt": "2026-03-27T16:16:00Z"
     }
-  ]
+  ],
+  
+  "media": {
+    "uploadEndpoint": "/api/upload",
+    "deleteEndpoint": "/api/media",
+    "baseUrl": "https://resilioartistry.com",
+    "folders": {
+      "products": "/uploads/products/",
+      "pages": "/uploads/pages/",
+      "branding": "/uploads/branding/"
+    },
+    "files": []
+  },
+
+  "content": {
+    "story": {
+      "id": "page_story",
+      "slug": "our-story",
+      "title": "Our Story",
+      "sections": [
+        {
+          "id": "sec_001",
+          "type": "hero",
+          "content": {
+            "heading": "Crafted with Passion",
+            "body": "Resilio Artistry was founded in 2020 with a simple mission: to create bags that blend Nigerian craftsmanship with modern functionality.",
+            "image": null,
+            "video": null,
+            "layout": "text-left"
+          }
+        },
+        {
+          "id": "sec_002",
+          "type": "text",
+          "content": {
+            "heading": "Our Journey",
+            "body": "What started in a small workshop in Iwo, Osun State, has grown into a beloved brand...",
+            "image": null
+          }
+        },
+        {
+          "id": "sec_003",
+          "type": "gallery",
+          "content": {
+            "images": []
+          }
+        }
+      ],
+      "seo": {
+        "metaTitle": "Our Story | Resilio Artistry",
+        "metaDescription": "Discover how Resilio Artistry crafts premium bags in Nigeria..."
+      },
+      "published": true,
+      "lastEdited": "2026-03-27T16:16:00Z",
+      "editedBy": "admin"
+    },
+    
+    "shipping": {
+      "id": "page_shipping",
+      "slug": "shipping-returns",
+      "title": "Shipping & Returns",
+      "sections": [
+        {
+          "id": "sec_001",
+          "type": "policy",
+          "content": {
+            "heading": "Delivery Information",
+            "body": "We offer nationwide delivery within 3-5 business days. Lagos orders arrive in 1-2 days.",
+            "icon": "truck"
+          }
+        },
+        {
+          "id": "sec_002",
+          "type": "policy",
+          "content": {
+            "heading": "Return Policy",
+            "body": "Not satisfied? Return within 14 days for a full refund. Items must be unused with original tags.",
+            "icon": "refresh"
+          }
+        },
+        {
+          "id": "sec_003",
+          "type": "rates",
+          "content": {
+            "heading": "Shipping Rates",
+            "rates": [
+              { "location": "Lagos", "cost": 1500, "time": "1-2 days" },
+              { "location": "Abuja", "cost": 2500, "time": "3-4 days" },
+              { "location": "Other States", "cost": 3000, "time": "3-5 days" }
+            ]
+          }
+        }
+      ],
+      "seo": {
+        "metaTitle": "Shipping & Returns | Resilio Artistry",
+        "metaDescription": "Nationwide delivery across Nigeria. Free returns within 14 days."
+      },
+      "published": true,
+      "lastEdited": "2026-03-27T16:16:00Z",
+      "editedBy": "admin"
+    },
+
+    "care": {
+      "id": "page_care",
+      "slug": "product-care",
+      "title": "Product Care",
+      "sections": [
+        {
+          "id": "sec_001",
+          "type": "tips",
+          "content": {
+            "heading": "Leather Care Guide",
+            "tips": [
+              { "title": "Cleaning", "description": "Wipe with damp cloth, avoid harsh chemicals" },
+              { "title": "Storage", "description": "Store in dust bag, stuff with paper to maintain shape" },
+              { "title": "Protection", "description": "Keep away from direct sunlight and moisture" }
+            ],
+            "video": null,
+            "images": []
+          }
+        }
+      ],
+      "published": true,
+      "lastEdited": "2026-03-27T16:16:00Z",
+      "editedBy": "admin"
+    },
+
+    "faq": {
+      "id": "page_faq",
+      "slug": "faq",
+      "title": "FAQ",
+      "sections": [
+        {
+          "id": "sec_001",
+          "type": "qa",
+          "content": {
+            "questions": [
+              {
+                "q": "How do I track my order?",
+                "a": "Once shipped, you'll receive an SMS with your tracking number. You can also check your order status in your account.",
+                "category": "orders"
+              },
+              {
+                "q": "Do you offer wholesale?",
+                "a": "Yes! Contact us at wholesale@resilioartistry.com for bulk orders of 20+ pieces.",
+                "category": "business"
+              },
+              {
+                "q": "Can I customize a bag?",
+                "a": "Absolutely. We offer monogramming and custom colors for orders above ₦50,000.",
+                "category": "customization"
+              }
+            ]
+          }
+        }
+      ],
+      "published": true,
+      "lastEdited": "2026-03-27T16:16:00Z",
+      "editedBy": "admin"
+    },
+
+    "lookbooks": {
+      "id": "page_lookbooks",
+      "slug": "lookbooks",
+      "title": "Lookbooks",
+      "collections": [
+        {
+          "id": "lb_001",
+          "season": "Spring 2026",
+          "title": "Urban Bloom",
+          "description": "Fresh colors for the new season",
+          "coverImage": null,
+          "images": [],
+          "products": [1, 5, 14, 23],
+          "published": true
+        }
+      ],
+      "published": true,
+      "lastEdited": "2026-03-27T16:16:00Z",
+      "editedBy": "admin"
+    },
+
+    "journal": {
+      "id": "page_journal",
+      "slug": "journal",
+      "title": "Journal",
+      "posts": [
+        {
+          "id": "post_001",
+          "title": "5 Ways to Style Your Tote Bag",
+          "excerpt": "From office to weekend brunch...",
+          "content": "Full article content here...",
+          "featuredImage": null,
+          "category": "styling",
+          "tags": ["tote", "styling tips", "fashion"],
+          "publishedAt": "2026-03-20T10:00:00Z",
+          "author": "Amina Resilio"
+        }
+      ],
+      "published": true,
+      "lastEdited": "2026-03-27T16:16:00Z",
+      "editedBy": "admin"
+    },
+
+    "careers": {
+      "id": "page_careers",
+      "slug": "careers",
+      "title": "Careers",
+      "sections": [
+        {
+          "id": "sec_001",
+          "type": "intro",
+          "content": {
+            "heading": "Join Our Team",
+            "body": "We're always looking for passionate people who love craftsmanship as much as we do.",
+            "image": null
+          }
+        },
+        {
+          "id": "sec_002",
+          "type": "openings",
+          "content": {
+            "positions": [
+              {
+                "title": "Bag Maker / Artisan",
+                "type": "Full-time",
+                "location": "Iwo, Osun State",
+                "description": "Create premium leather bags in our workshop...",
+                "requirements": ["2+ years leatherwork experience", "Attention to detail"],
+                "active": true
+              },
+              {
+                "title": "Social Media Manager",
+                "type": "Part-time / Remote",
+                "location": "Lagos or Remote",
+                "description": "Manage our Instagram and TikTok presence...",
+                "requirements": ["Content creation skills", "Understanding of fashion/lifestyle brands"],
+                "active": true
+              }
+            ]
+          }
+        }
+      ],
+      "published": true,
+      "lastEdited": "2026-03-27T16:16:00Z",
+      "editedBy": "admin"
+    }
+  },
+
+  "site": {
+    "name": "Resilio Artistry",
+    "tagline": "Stylish & Functional Bags",
+    "phone": "+234 903 603 0157",
+    "email": "hello@resilioartistry.com",
+    "address": "No 2, Bokusoro Junction, Beside As-soffy Travel & Tour Office, Iwo, Osun State, Nigeria.",
+    "social": {
+      "instagram": "@resilioartistry",
+      "facebook": "ResilioArtistry",
+      "tiktok": "@resilioartistry",
+      "whatsapp": "+2349036030157"
+    },
+    "branding": {
+      "logo": null,
+      "logoWhite": null,
+      "favicon": null
+    }
+  },
+
+  "payment": {
+    "paystack": {
+      "publicKey": "pk_test_your_key_here",
+      "secretKey": "sk_test_your_secret_here",
+      "enabled": true
+    },
+    "bankTransfer": {
+      "enabled": true,
+      "bankName": "opay",
+      "accountNumber": "6403242905",
+      "accountName": "Resilio Artistry Ltd"
+    },
+    "onDelivery": {
+      "enabled": true,
+      "cities": ["iwo",]
+    }
+  },
+
+  "cms": {
+    "version": "1.0",
+    "uploadSettings": {
+      "maxImageSize": 5242880,
+      "maxVideoSize": 52428800,
+      "allowedImageTypes": ["image/jpeg", "image/png", "image/webp"],
+      "allowedVideoTypes": ["video/mp4"],
+      "generateThumbnails": true,
+      "thumbnailSizes": [
+        { "name": "thumb", "width": 300, "height": 300 },
+        { "name": "medium", "width": 800, "height": 800 },
+        { "name": "large", "width": 1600, "height": 1600 }
+      ]
+    },
+    "editorRoles": ["admin", "editor"],
+    "publishWorkflow": false
+  }
 }
