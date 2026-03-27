@@ -421,23 +421,7 @@
             
             return products;
         }
-
-        function showError(message, buttonText) {
-            const productGrid = document.getElementById('product-grid');
-            productGrid.innerHTML = `
-                <div class="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-20">
-                    <p class="text-red-600 mb-2 font-medium">${message}</p>
-                    <button onclick="loadProducts()" class="px-6 py-3 bg-black text-white text-xs uppercase tracking-widest hover:bg-stone-800 transition-colors">
-                        ${buttonText}
-                    </button>
-                    <p class="mt-4 text-xs text-stone-400">
-                        <a href="/admin/simple-cms.html" class="underline">Go to CMS Admin</a> to add products
-                    </p>
-                </div>
-            `;
-        }
-
-        function renderProducts() {
+ function renderProducts() {
             const productGrid = document.getElementById('product-grid');
             productGrid.innerHTML = '';
             
