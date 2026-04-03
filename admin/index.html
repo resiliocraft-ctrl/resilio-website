@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resilio Artistry - Admin</title>
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background: #0f0f0f; 
+            color: #fff;
+        }
+        
+        /* Login Screen */
+        #login-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f0f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .login-box {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid #333;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .login-box h1 {
+            color: #d4af37;
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+        .login-box p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .login-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0f0f0f;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+        .login-input:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: #d4af37;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .login-btn:hover {
+            background: #c4a030;
+        }
+        .login-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .error-msg {
+            color: #dc2626;
+            font-size: 14px;
+            margin-top: 12px;
+            display: none;
+        }
+        
+        /* Admin Layout */
+        #admin-app {
+            display: none;
+            min-height: 100vh;
+        }
+        .admin-header {
+            background: #1a1a1a;
+            border-bottom: 1px solid #333;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #d4af37;
+        }
+        .logout-btn {
+            padding: 8px 16px;
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        /* Navigation */
+        .admin-nav {
+            display: flex;
+            gap: 4px;
+            padding: 0 24px;
+            background: #1a1a1a;
+            border-bottom: 1px solid #333;
+        }
+        .nav-btn {
+            padding: 16px 24px;
+            background: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+        .nav-btn:hover {
+            color: #fff;
+        }
+        .nav-btn.active {
+            color: #d4af37;
+            border-bottom-color: #d4af37;
+        }
+        
+        /* Content Area */
+        .admin-content {
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: #d4af37;
+            color: #000;
+        }
+        .btn-secondary {
+            background: #333;
+            color: #fff;
+        }
+        .btn-danger {
+            background: #dc2626;
+            color: #fff;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        
+        /* Cards */
+        .card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #333;
+        }
+        
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #aaa;
+            font-weight: 500;
+        }
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            background: #0f0f0f;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        /* Image Upload */
+        .upload-area {
+            border: 2px dashed #444;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #0f0f0f;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            border-color: #d4af37;
+            background: #1a1a1a;
+        }
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        .upload-text {
+            color: #666;
+            font-size: 14px;
+        }
+        .upload-text span {
+            color: #d4af37;
+            font-weight: 600;
+        }
+        .file-input {
+            display: none;
+        }
+        
+        /* Image Gallery */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .image-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #0f0f0f;
+            border: 2px solid #333;
+        }
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .image-remove {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            background: rgba(220, 38, 38, 0.9);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .image-order {
+            position: absolute;
+            bottom: 4px;
+            left: 4px;
+            background: rgba(0,0,0,0.8);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        /* Product List */
+        .product-list {
+            display: grid;
+            gap: 16px;
+        }
+        .product-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background: #0f0f0f;
+            border: 1px solid #333;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .product-item:hover {
+            border-color: #d4af37;
+        }
+        .product-thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #222;
+        }
+        .product-info {
+            flex: 1;
+        }
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .product-meta {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .product-price {
+            color: #d4af37;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .product-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        /* Page Editor */
+        .page-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .page-item {
+            padding: 16px;
+            background: #0f0f0f;
+            border: 1px solid #333;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .page-item:hover, .page-item.active {
+            border-color: #d4af37;
+            background: #1a1a1a;
+        }
+        .page-item-title {
+            font-weight: 600;
+        }
+        .page-item-slug {
+            font-size: 12px;
+            color: #666;
+            margin-top: 2px;
+        }
+        .page-status {
+            padding: 4px 12px;
+            background: #22c55e;
+            color: #000;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: #1a1a1a;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            background: #333;
+            border: none;
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+        }
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #333;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 16px 24px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 2000;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast.success { border-color: #22c55e; }
+        .toast.error { border-color: #dc2626; }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        /* Utility */
+        .hidden { display: none !important; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .admin-nav { overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen">
+        <div class="login-box">
+            <h1>⚡ Resilio</h1>
+            <p>Admin Dashboard</p>
+            <input type="password" class="login-input" id="login-password" placeholder="Enter password">
+            <button class="login-btn" id="login-btn" onclick="login()">
+                <span id="login-text">Sign In</span>
+            </button>
+            <p class="error-msg" id="login-error"></p>
+            <p style="margin-top: 16px; font-size: 12px; color: #555;">
+                Password: <code style="background: #0f0f0f; padding: 2px 6px; border-radius: 4px;">admin123</code>
+            </p>
+        </div>
+    </div>
+
+    <!-- Admin App -->
+    <div id="admin-app">
+        <header class="admin-header">
+            <div class="logo">⚡ Resilio Artistry</div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </header>
+        
+        <nav class="admin-nav">
+            <button class="nav-btn active" onclick="showTab('products')">🛍️ Products</button>
+            <button class="nav-btn" onclick="showTab('pages')">📄 Pages</button>
+            <button class="nav-btn" onclick="showTab('media')">🖼️ Media</button>
+            <button class="nav-btn" onclick="showTab('settings')">⚙️ Settings</button>
+        </nav>
+
+        <main class="admin-content">
+            <!-- Products Tab -->
+            <div id="tab-products" class="tab-content">
+                <div class="section-header">
+                    <h2 class="section-title">Products</h2>
+                    <button class="btn btn-primary" onclick="openProductModal()">+ Add Product</button>
+                </div>
+                <div id="product-list" class="product-list">
+                    <div class="empty-state">Loading products...</div>
+                </div>
+            </div>
+
+            <!-- Pages Tab -->
+            <div id="tab-pages" class="tab-content hidden">
+                <div class="section-header">
+                    <h2 class="section-title">Website Pages</h2>
+                    <button class="btn btn-secondary" onclick="previewSite()">👁️ Preview</button>
+                </div>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-title">Select Page to Edit</div>
+                        <div class="page-list" id="page-list"></div>
+                    </div>
+                    <div class="card" id="page-editor" style="display: none;">
+                        <div class="card-title" id="editor-title">Edit Page</div>
+                        <div id="editor-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Media Tab -->
+            <div id="tab-media" class="tab-content hidden">
+                <div class="section-header">
+                    <h2 class="section-title">Media Library</h2>
+                    <button class="btn btn-primary" onclick="document.getElementById('media-upload').click()">📤 Upload</button>
+                </div>
+                <input type="file" id="media-upload" class="file-input" multiple accept="image/*,video/*" onchange="handleMediaUpload(event)">
+                
+                <div class="upload-area" onclick="document.getElementById('media-upload').click()">
+                    <div class="upload-icon">🖼️</div>
+                    <div class="upload-text">
+                        Drop files here or <span>click to upload</span><br>
+                        <small>Supports JPG, PNG, WebP, MP4</small>
+                    </div>
+                </div>
+                
+                <div id="media-grid" class="image-grid"></div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="tab-settings" class="tab-content hidden">
+                <div class="section-header">
+                    <h2 class="section-title">Site Settings</h2>
+                    <button class="btn btn-primary" onclick="saveSettings()">💾 Save All</button>
+                </div>
+                <div class="card">
+                    <div class="card-title">Business Information</div>
+                    <div class="form-group">
+                        <label class="form-label">Site Name</label>
+                        <input type="text" class="form-input" id="site-name" value="Resilio Artistry">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tagline</label>
+                        <input type="text" class="form-input" id="site-tagline" value="Stylish & Functional Bags">
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Phone</label>
+                            <input type="text" class="form-input" id="site-phone" value="+234 903 603 0157">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="site-email" value="hello@resilioartistry.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Address</label>
+                        <textarea class="form-textarea" id="site-address">No 2, Bokusoro Junction, Beside As-soffy Travel & Tour Office, Iwo, Osun State, Nigeria.</textarea>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">Payment Settings</div>
+                    <div class="form-group">
+                        <label class="form-label">Paystack Public Key</label>
+                        <input type="text" class="form-input" id="paystack-key" value="pk_test_your_key_here" placeholder="pk_test_...">
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Bank Name</label>
+                            <input type="text" class="form-input" id="bank-name" value="GTBank">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Account Number</label>
+                            <input type="text" class="form-input" id="account-number" value="0123456789">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Account Name</label>
+                        <input type="text" class="form-input" id="account-name" value="Resilio Artistry Ltd">
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">Add Product</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="product-form">
+                    <input type="hidden" id="product-id">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Product Images *</label>
+                        <div class="upload-area" onclick="document.getElementById('product-images').click()">
+                            <div class="upload-icon">📸</div>
+                            <div class="upload-text">
+                                Click to upload images<br>
+                                <small>First image will be the cover photo</small>
+                            </div>
+                        </div>
+                        <input type="file" id="product-images" class="file-input" multiple accept="image/*" onchange="handleProductImages(event)">
+                        <div id="product-image-preview" class="image-grid"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Product Name *</label>
+                        <input type="text" class="form-input" id="product-name" placeholder="e.g., Resilio Pearl Handbag" required>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Price (₦) *</label>
+                            <input type="number" class="form-input" id="product-price" placeholder="20000" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Category *</label>
+                            <select class="form-select" id="product-category" required>
+                                <option value="">Select category</option>
+                                <option value="handbags">Handbags</option>
+                                <option value="tote">Tote Bags</option>
+                                <option value="mini">Mini Bags</option>
+                                <option value="backpack">Backpacks</option>
+                                <option value="travel">Travel</option>
+                                <option value="accessories">Accessories</option>
+                                <option value="unisex">Unisex</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" id="product-description" placeholder="Describe the product..."></textarea>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Tag</label>
+                            <select class="form-select" id="product-tag">
+                                <option value="">None</option>
+                                <option value="New">New</option>
+                                <option value="Best Seller">Best Seller</option>
+                                <option value="Hot Selling">Hot Selling</option>
+                                <option value="Limited">Limited</option>
+                                <option value="Back to School">Back to School</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="display: flex; align-items: center; gap: 8px; margin-top: 24px;">
+                                <input type="checkbox" id="product-featured" style="width: auto;"> Featured on Homepage
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveProduct()">Save Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span id="toast-icon">✓</span>
+        <span id="toast-message">Success</span>
+    </div>
+
+    <script>
+        // ==================== CONFIGURATION ====================
+        // REPLACE WITH YOUR SUPABASE CREDENTIALS
+        const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
+        const SUPABASE_KEY = 'YOUR_ANON_KEY';
+        
+        // Simple password protection (no Supabase Auth needed)
+        const ADMIN_PASSWORD = 'admin123';
+        
+        let supabase = null;
+        let products = [];
+        let pages = {};
+        let mediaLibrary = [];
+        let currentProductImages = [];
+        let editingProductId = null;
+
+        // ==================== AUTHENTICATION ====================
+        function login() {
+            const password = document.getElementById('login-password').value;
+            const errorEl = document.getElementById('login-error');
+            
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('admin-app').style.display = 'block';
+                initSupabase();
+                init();
+            } else {
+                errorEl.textContent = 'Wrong password! Try: admin123';
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            location.reload();
+        }
+
+        // ==================== SUPABASE ====================
+        function initSupabase() {
+            if (SUPABASE_URL.includes('YOUR_PROJECT_ID')) {
+                console.warn('⚠️ Please add your Supabase credentials!');
+                showToast('Warning: Using demo mode - add Supabase credentials!', 'error');
+                return false;
+            }
+            
+            try {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                console.log('✅ Supabase connected');
+                return true;
+            } catch (e) {
+                console.error('❌ Supabase error:', e);
+                showToast('Error connecting to database', 'error');
+                return false;
+            }
+        }
+
+        // ==================== INITIALIZATION ====================
+        async function init() {
+            if (!supabase) {
+                // Demo mode - load from localStorage or show empty
+                products = JSON.parse(localStorage.getItem('resilio_products')) || [];
+                renderProducts();
+                renderPages();
+                return;
+            }
+            
+            await Promise.all([
+                loadProducts(),
+                loadPages(),
+                loadMedia()
+            ]);
+        }
+
+        // ==================== PRODUCTS ====================
+        async function loadProducts() {
+            if (!supabase) return;
+            
+            const { data, error } = await supabase
+                .from('products')
+                .select('*')
+                .order('created_at', { ascending: false });
+            
+            if (error) {
+                console.error('Error loading products:', error);
+                showToast('Error loading products', 'error');
+                return;
+            }
+            
+            products = data || [];
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const container = document.getElementById('product-list');
+            
+            if (products.length === 0) {
+                container.innerHTML = '<div class="empty-state">No products yet. Click "Add Product" to create one.</div>';
+                return;
+            }
+            
+            container.innerHTML = products.map(p => `
+                <div class="product-item" onclick="editProduct(${p.id})">
+                    <img src="${p.images?.[0] || 'https://via.placeholder.com/80'}" class="product-thumb" alt="">
+                    <div class="product-info">
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-meta">${p.category} ${p.tag ? '• ' + p.tag : ''} ${p.featured ? '• ⭐ Featured' : ''}</div>
+                        <div class="product-price">₦${p.price?.toLocaleString()}</div>
+                    </div>
+                    <div class="product-actions" onclick="event.stopPropagation()">
+                        <button class="btn btn-sm btn-secondary" onclick="editProduct(${p.id})">Edit</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteProduct(${p.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openProductModal() {
+            editingProductId = null;
+            currentProductImages = [];
+            document.getElementById('product-form').reset();
+            document.getElementById('product-image-preview').innerHTML = '';
+            document.getElementById('modal-title').textContent = 'Add New Product';
+            document.getElementById('product-modal').classList.add('active');
+        }
+
+        async function editProduct(id) {
+            const p = products.find(x => x.id === id);
+            if (!p) return;
+            
+            editingProductId = id;
+            currentProductImages = p.images || [];
+            
+            document.getElementById('product-name').value = p.name;
+            document.getElementById('product-price').value = p.price;
+            document.getElementById('product-category').value = p.category;
+            document.getElementById('product-description').value = p.description || '';
+            document.getElementById('product-tag').value = p.tag || '';
+            document.getElementById('product-featured').checked = p.featured;
+            
+            renderProductImages();
+            document.getElementById('modal-title').textContent = 'Edit Product';
+            document.getElementById('product-modal').classList.add('active');
+        }
+
+        async function handleProductImages(event) {
+            const files = Array.from(event.target.files);
+            
+            for (const file of files) {
+                // Convert to base64 for immediate preview
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    const base64 = e.target.result;
+                    
+                    if (supabase) {
+                        // Upload to Supabase Storage
+                        const fileName = `products/${Date.now()}_${file.name}`;
+                        const { data, error } = await supabase.storage
+                            .from('media')
+                            .upload(fileName, file);
+                        
+                        if (error) {
+                            console.error('Upload error:', error);
+                            // Fallback to base64
+                            currentProductImages.push(base64);
+                        } else {
+                            // Get public URL
+                            const { data: { publicUrl } } = supabase.storage
+                                .from('media')
+                                .getPublicUrl(fileName);
+                            currentProductImages.push(publicUrl);
+                        }
+                    } else {
+                        // Demo mode - store base64
+                        currentProductImages.push(base64);
+                    }
+                    
+                    renderProductImages();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function renderProductImages() {
+            document.getElementById('product-image-preview').innerHTML = currentProductImages.map((img, i) => `
+                <div class="image-item">
+                    <img src="${img}" alt="">
+                    <span class="image-order">#${i + 1}</span>
+                    <button type="button" class="image-remove" onclick="removeProductImage(${i})">×</button>
+                </div>
+            `).join('');
+        }
+
+        function removeProductImage(index) {
+            currentProductImages.splice(index, 1);
+            renderProductImages();
+        }
+
+        async function saveProduct() {
+            const name = document.getElementById('product-name').value.trim();
+            const price = parseInt(document.getElementById('product-price').value);
+            const category = document.getElementById('product-category').value;
+            
+            if (!name || !price || !category) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+            if (currentProductImages.length === 0) {
+                showToast('Please add at least one image', 'error');
+                return;
+            }
+
+            const product = {
+                name,
+                price,
+                category,
+                description: document.getElementById('product-description').value,
+                images: currentProductImages,
+                tag: document.getElementById('product-tag').value,
+                featured: document.getElementById('product-featured').checked,
+                in_stock: true
+            };
+
+            let result;
+            
+            if (supabase) {
+                if (editingProductId) {
+                    result = await supabase
+                        .from('products')
+                        .update({ ...product, updated_at: new Date().toISOString() })
+                        .eq('id', editingProductId);
+                } else {
+                    result = await supabase
+                        .from('products')
+                        .insert([product]);
+                }
+                
+                if (result.error) {
+                    showToast('Error saving to database', 'error');
+                    console.error(result.error);
+                    return;
+                }
+            } else {
+                // Demo mode - save to localStorage
+                if (editingProductId) {
+                    const idx = products.findIndex(p => p.id === editingProductId);
+                    products[idx] = { ...product, id: editingProductId };
+                } else {
+                    products.push({ ...product, id: Date.now() });
+                }
+                localStorage.setItem('resilio_products', JSON.stringify(products));
+            }
+
+            showToast(editingProductId ? 'Product updated!' : 'Product added!');
+            closeModal();
+            loadProducts();
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm('Delete this product?')) return;
+            
+            if (supabase) {
+                const { error } = await supabase
+                    .from('products')
+                    .delete()
+                    .eq('id', id);
+                
+                if (error) {
+                    showToast('Error deleting product', 'error');
+                    return;
+                }
+            } else {
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('resilio_products', JSON.stringify(products));
+            }
+            
+            loadProducts();
+            showToast('Product deleted');
+        }
+
+        function closeModal() {
+            document.getElementById('product-modal').classList.remove('active');
+        }
+
+        // ==================== PAGES ====================
+        async function loadPages() {
+            if (!supabase) {
+                // Demo pages
+                pages = {
+                    story: { title: 'Our Story', content: 'Resilio Artistry was founded in 2020...' },
+                    shipping: { title: 'Shipping & Returns', content: 'We offer nationwide delivery...' },
+                    care: { title: 'Product Care', content: 'To maintain your bag...' },
+                    faq: { title: 'FAQ', content: 'Common questions...' },
+                    careers: { title: 'Careers', content: 'Join our team...' }
+                };
+                renderPages();
+                return;
+            }
+            
+            const { data, error } = await supabase.from('pages').select('*');
+            if (data) {
+                pages = {};
+                data.forEach(p => pages[p.id] = p);
+            }
+            renderPages();
+        }
+
+        function renderPages() {
+            const container = document.getElementById('page-list');
+            const pageOrder = ['story', 'shipping', 'care', 'faq', 'careers'];
+            
+            container.innerHTML = pageOrder.map(key => {
+                const page = pages[key] || { title: key, slug: key };
+                return `
+                    <div class="page-item" onclick="editPage('${key}')">
+                        <div>
+                            <div class="page-item-title">${page.title}</div>
+                            <div class="page-item-slug">/${page.slug || key}</div>
+                        </div>
+                        <span class="page-status">Published</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function editPage(key) {
+            const page = pages[key] || {};
+            document.querySelectorAll('.page-item').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            document.getElementById('page-editor').style.display = 'block';
+            document.getElementById('editor-title').textContent = 'Edit: ' + (page.title || key);
+            
+            document.getElementById('editor-content').innerHTML = `
+                <div class="form-group">
+                    <label class="form-label">Page Title</label>
+                    <input type="text" class="form-input" id="page-title" value="${page.title || ''}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Content</label>
+                    <textarea class="form-textarea" id="page-content" rows="12">${page.content || ''}</textarea>
+                </div>
+                <button class="btn btn-primary" onclick="savePage('${key}')" style="width: 100%;">
+                    💾 Save Page Changes
+                </button>
+            `;
+        }
+
+        async function savePage(key) {
+            const title = document.getElementById('page-title').value;
+            const content = document.getElementById('page-content').value;
+            
+            if (supabase) {
+                await supabase.from('pages').upsert({
+                    id: key,
+                    title,
+                    slug: key.replace(/_/g, '-'),
+                    content,
+                    updated_at: new Date().toISOString()
+                });
+            } else {
+                pages[key] = { ...pages[key], title, content };
+                localStorage.setItem('resilio_pages', JSON.stringify(pages));
+            }
+            
+            showToast('Page saved!');
+            loadPages();
+        }
+
+        // ==================== MEDIA ====================
+        async function loadMedia() {
+            if (!supabase) {
+                mediaLibrary = JSON.parse(localStorage.getItem('resilio_media')) || [];
+                renderMedia();
+                return;
+            }
+            
+            const { data } = await supabase.from('media').select('*').order('created_at', { ascending: false });
+            mediaLibrary = data || [];
+            renderMedia();
+        }
+
+        async function handleMediaUpload(event) {
+            const files = Array.from(event.target.files);
+            
+            for (const file of files) {
+                if (supabase) {
+                    const fileName = `media/${Date.now()}_${file.name}`;
+                    const { data, error } = await supabase.storage
+                        .from('media')
+                        .upload(fileName, file);
+                    
+                    if (error) {
+                        showToast(`Failed to upload ${file.name}`, 'error');
+                        continue;
+                    }
+                    
+                    const { data: { publicUrl } } = supabase.storage
+                        .from('media')
+                        .getPublicUrl(fileName);
+                    
+                    await supabase.from('media').insert([{
+                        name: file.name,
+                        url: publicUrl,
+                        type: file.type.startsWith('video') ? 'video' : 'image',
+                        size: file.size
+                    }]);
+                } else {
+                    // Demo mode
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        mediaLibrary.push({
+                            id: Date.now(),
+                            name: file.name,
+                            url: e.target.result,
+                            type: file.type.startsWith('video') ? 'video' : 'image'
+                        });
+                        localStorage.setItem('resilio_media', JSON.stringify(mediaLibrary));
+                        renderMedia();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+            
+            if (supabase) loadMedia();
+            showToast(`${files.length} file(s) uploaded`);
+        }
+
+        function renderMedia() {
+            const grid = document.getElementById('media-grid');
+            if (mediaLibrary.length === 0) {
+                grid.innerHTML = '<div class="empty-state">No media files yet. Upload some images!</div>';
+                return;
+            }
+            
+            grid.innerHTML = mediaLibrary.map(m => `
+                <div class="image-item" style="cursor: pointer;" onclick="copyUrl('${m.url}')">
+                    ${m.type === 'video' ? 
+                        '<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #0f0f0f;">🎥</div>' :
+                        `<img src="${m.url}" alt="${m.name}">`
+                    }
+                    <button type="button" class="image-remove" onclick="event.stopPropagation(); deleteMedia('${m.id}')">×</button>
+                </div>
+            `).join('');
+        }
+
+        function copyUrl(url) {
+            navigator.clipboard.writeText(url);
+            showToast('URL copied!');
+        }
+
+        async function deleteMedia(id) {
+            if (!confirm('Delete this file?')) return;
+            
+            if (supabase) {
+                await supabase.from('media').delete().eq('id', id);
+            } else {
+                mediaLibrary = mediaLibrary.filter(m => m.id != id);
+                localStorage.setItem('resilio_media', JSON.stringify(mediaLibrary));
+            }
+            
+            loadMedia();
+        }
+
+        // ==================== NAVIGATION ====================
+        function showTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tab-' + tab).classList.remove('hidden');
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (tab === 'settings') loadSettings();
+        }
+
+        function previewSite() {
+            window.open('../index.html', '_blank');
+        }
+
+        // ==================== SETTINGS ====================
+        async function loadSettings() {
+            if (!supabase) return;
+            
+            const { data } = await supabase.from('settings').select('*').single();
+            if (data) {
+                document.getElementById('site-name').value = data.site_name || '';
+                document.getElementById('site-tagline').value = data.tagline || '';
+                document.getElementById('site-phone').value = data.phone || '';
+                document.getElementById('site-email').value = data.email || '';
+                document.getElementById('site-address').value = data.address || '';
+                document.getElementById('paystack-key').value = data.paystack_key || '';
+                document.getElementById('bank-name').value = data.bank_name || '';
+                document.getElementById('account-number').value = data.account_number || '';
+                document.getElementById('account-name').value = data.account_name || '';
+            }
+        }
+
+        async function saveSettings() {
+            const settings = {
+                id: 1,
+                site_name: document.getElementById('site-name').value,
+                tagline: document.getElementById('site-tagline').value,
+                phone: document.getElementById('site-phone').value,
+                email: document.getElementById('site-email').value,
+                address: document.getElementById('site-address').value,
+                paystack_key: document.getElementById('paystack-key').value,
+                bank_name: document.getElementById('bank-name').value,
+                account_number: document.getElementById('account-number').value,
+                account_name: document.getElementById('account-name').value
+            };
+            
+            if (supabase) {
+                const { error } = await supabase.from('settings').upsert(settings);
+                if (error) {
+                    showToast('Error saving settings', 'error');
+                    return;
+                }
+            } else {
+                localStorage.setItem('resilio_settings', JSON.stringify(settings));
+            }
+            
+            showToast('Settings saved!');
+        }
+
+        // ==================== UTILITIES ====================
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            document.getElementById('toast-icon').textContent = type === 'success' ? '✓' : '✕';
+            toast.className = 'toast show ' + type;
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Enter key on password
+            document.getElementById('login-password').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') login();
+            });
+        });
+
+        // Close modal on outside click
+        document.getElementById('product-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'product-modal') closeModal();
+        });
+    </script>
+</body>
+</html>
