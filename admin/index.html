@@ -63,7 +63,7 @@ border-radius:10px;
 
 <input id="pass" type="password" placeholder="password">
 
-<button onclick="login()">Login</button>
+<button id="login-btn">Login</button>
 
 <p>Password: admin123</p>
 
@@ -114,7 +114,9 @@ LOGIN
 -------------------- */
 
 function login(){
+alert("Login button clicked");
 
+}
 const password = document.getElementById("pass").value;
 
 if(password === "admin123"){
