@@ -115,13 +115,21 @@ LOGIN
 
 function login(){
 
-if(document.getElementById("pass").value==="admin123"){
+const password = document.getElementById("pass").value;
 
-document.getElementById("login-screen").style.display="none"
-document.getElementById("admin").style.display="block"
+if(password === "admin123"){
 
-loadProducts()
-loadOrders()
+document.getElementById("login-screen").style.display = "none";
+document.getElementById("admin").style.display = "block";
+
+if(supabase){
+loadProducts();
+loadOrders();
+}
+
+}else{
+
+alert("Wrong password");
 
 }
 
