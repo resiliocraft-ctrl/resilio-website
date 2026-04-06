@@ -25,7 +25,7 @@ align-items:center;
 background:#0f0f0f;
 }
 
-#admin{display:none;padding:20px}
+#admin{padding:20px}
 
 .product{
 background:#1a1a1a;
@@ -55,21 +55,6 @@ border-radius:10px;
 </head>
 <body>
 
-<div id="login-screen">
-
-<div>
-
-<h2>Resilio Admin</h2>
-
-<input id="pass" type="password" placeholder="password">
-
-<button onclick="login()">Login</button>
-  
-<p>Password: admin123</p>
-
-</div>
-
-</div>
 
 <div id="admin">
 
@@ -360,6 +345,9 @@ alert("Payment complete")
 
 }
 
+ loadProducts();
+loadOrders();
+  
 </script>
 
 </body>
