@@ -63,8 +63,8 @@ border-radius:10px;
 
 <input id="pass" type="password" placeholder="password">
 
-<button id="login-btn">Login</button>
-
+<button onclick="login()">Login</button>
+  
 <p>Password: admin123</p>
 
 </div>
@@ -112,11 +112,8 @@ console.log("Supabase failed to load,e");
 /* --------------------
 LOGIN
 -------------------- */
-
 function login(){
-alert("Login button clicked");
 
-}
 const password = document.getElementById("pass").value;
 
 if(password === "admin123"){
@@ -136,6 +133,7 @@ alert("Wrong password");
 }
 
 }
+
 
 /* --------------------
 IMAGE UPLOAD
